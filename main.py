@@ -28,11 +28,18 @@ def createCSV(uploaded_file, img):
     csvname = f'{uploaded_file.name}.csv'
     if not csvname in listdir:
         df = pd.DataFrame()
-
+        red = []
+        green = []
+        blue = []
         for e in np.array(img):
-            df['Red'] +=     [j[0] for j in e]
-            df['Green'] +=   [j[1] for j in e]
-            df['Blue'] +=    [j[2] for j in e]
+            for j in e:
+                red     .append(j[0])
+                green   .append(j[1])
+                blue    .append(j[2])
+        
+        df['Red'] = red
+        df['Green'] = green
+        df['Blue'] = blue
         df.to_csv(csvname)
     else:
         df = pd.read_csv(csvname)
@@ -53,6 +60,7 @@ def mandelblend(uploaded_fine, img):
 #crear los histogramas y guardarlos como un imagen
 def renderHistograms(df):
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
+
     ax1.hist(df['Red'],     bins=20, color='red'    )
     ax2.hist(df['Green'],   bins=20, color='green'  )
     ax3.hist(df['Blue'],    bins=20, color='blue'   )
@@ -70,7 +78,7 @@ uploaded_file = st.file_uploader("Elija un archivo", type=['.png', '.jpg'])
 if uploaded_file is not None:
 
     #Cargar y mostrar la imagen subida por el usuario
-    img = Image.open(uploaded_file)
+    img = Image.open(uploaded_file).convert('RGB')
     st.image(img, width=500)
 
     #Mostrar GUI
