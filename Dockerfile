@@ -2,7 +2,7 @@
 
 #Obtener requerimientos de imagen creada previamente
 #Esto reduce el tiempo que toma hacer una build
-FROM jmdeleonpi/reqs:v1
+FROM jmdeleonpi/reqs:v2
 
 WORKDIR /app
 
